@@ -1,6 +1,7 @@
 project(final)
 cmake_minimum_required(VERSION 2.8)
 
+SET(CMAKE_CXX_FLAGS "-std=c++11")
 SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
 SET(CMAKE_C_FLAGS_DEBUG "-O0 -g")
 
