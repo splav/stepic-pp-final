@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <ev.h>
 #include <ev++.h>
@@ -187,6 +188,8 @@ public:
 };
 
 int main() {
+    daemon(0, 0);
+
     ev::default_loop       loop;
     Listener listener(std::string(), 0);
 
