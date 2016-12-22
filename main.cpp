@@ -52,9 +52,8 @@ public:
         trigger->send();
     }
 
-    void reply(char *buffer) {
-        auto request = std::string(buffer);
-        auto parser = HTTPParser(request);
+    std::string reply(char *buffer) {
+
     }
 
     void queue_cb (ev::async &w, int revents) {
@@ -95,7 +94,10 @@ public:
         }
         else
         {
-            reply(buffer);
+            auto parser = HTTPParser(std::string(buffer, read));
+            auto data = parser.reply();
+            send(w.fd, data.c_str(), data.length(), 0);
+
             printf("message:%s\n",buffer);
         }
 
