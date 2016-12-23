@@ -15,6 +15,10 @@ private:
 public:
     HTTPParser(std::string s) : path("") {
 
+        int log = open("/home/box/log", O_CREAT | O_WRONLY | O_APPEND, 0666);
+        write(log, s.c_str(), s.length());
+
+        close(log);
         char *p = const_cast<char*>(s.c_str());
         while (*p++ != ' ');
         char *e = p++;
