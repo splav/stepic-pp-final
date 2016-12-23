@@ -188,7 +188,7 @@ public:
                               int l_linger;   /* how many seconds to linger for */
         } linger;
 
-        linger.l_linger = 1;
+        linger.l_onoff = 1;
         linger.l_linger = 1;
         setsockopt(client_sd, SOL_SOCKET, SO_LINGER, &linger, sizeof (linger));
 
