@@ -52,10 +52,6 @@ public:
         trigger->send();
     }
 
-    std::string reply(char *buffer) {
-
-    }
-
     void queue_cb (ev::async &w, int revents) {
         sd_queue_mutex->lock();
 
@@ -98,7 +94,7 @@ public:
             auto data = parser.reply();
             send(w.fd, data.c_str(), data.length(), 0);
 
-            printf("message:%s\n",buffer);
+//            printf("message:%s\n",buffer);
         }
 
         // Send message bach to the client

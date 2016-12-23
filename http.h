@@ -15,7 +15,6 @@ private:
     std::string path;
 public:
     HTTPParser(std::string s) : path("") {
-        //std::regex path_regex("GET (/*) .*");
         std::regex path_regex("GET ([\\/\\w\\.]*)[\\? ]");
         std::smatch match;
         if (regex_search(s, match, path_regex))
@@ -30,10 +29,8 @@ public:
             int fd = open(path.c_str(), O_RDONLY);
             if(fd > 0) {
                 char buf[1024];
-                printf("a\n");
                 int len = read(fd, buf, sizeof(buf));
                 if(len > 0) {
-                    printf("b\n");
                     return std::string(reply_200) + std::to_string(len) + "\r\n\r\n" + std::string(buf, len);
                 }
             }
