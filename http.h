@@ -5,8 +5,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-char reply_404[] = "HTTP/1.0 404 Not Found\r\nServer: final/0.1\r\nContent-Type: text/html\r\nContent-Length: 0\r\n\r\n";
-char reply_200[] = "HTTP/1.0 200 OK\r\nServer: final/0.1\r\nContent-Type: text/html\r\nContent-Length: ";
+char reply_404[] = "HTTP/1.0 404 Not Found\r\nConnection: close\r\nServer: final/0.1\r\nContent-Type: text/html\r\nContent-Length: 0\r\n\r\n";
+char reply_200[] = "HTTP/1.0 200 OK\r\nConnection: close\r\nServer: final/0.1\r\nContent-Type: text/html\r\nContent-Length: ";
 
 
 class HTTPParser {

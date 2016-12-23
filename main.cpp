@@ -94,6 +94,9 @@ public:
             auto parser = HTTPParser(std::string(buffer, read));
             auto data = parser.reply();
             send(w.fd, data.c_str(), data.length(), 0);
+            close(w.fd);
+            w.stop();
+            delete &w;
 
 //            printf("message:%s\n",buffer);
         }
