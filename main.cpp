@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <ev.h>
@@ -185,11 +186,31 @@ public:
     }
 };
 
-int main() {
+int main(int argc, char *argv[]) {
     daemon(0, 0);
 
+    std::string host("0.0.0.0");
+    in_port_t port = 8080;
+    int c;
+    while ((c = getopt (argc, argv, "h:p:d:")) != -1) {
+        switch (c)
+        {
+        case 'h':
+            host = std::string(optarg);
+            break;
+        case 'p':
+            port = atoi(optarg);
+            break;
+        case 'd':
+            chdir(optarg);
+            break;
+        default:
+            abort();
+        }
+    }
+
     ev::default_loop       loop;
-    Listener listener(std::string(), 0);
+    Listener listener(host, port);
 
     loop.run(0);
 }

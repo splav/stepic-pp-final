@@ -17,7 +17,7 @@ public:
 
         char *p = const_cast<char*>(s.c_str());
         while (*p++ != ' ');
-        char *e = p;
+        char *e = p++;
         while (*e != ' ' && *e != '?') e++;
         *e = '\0';
         path = std::string(p);
