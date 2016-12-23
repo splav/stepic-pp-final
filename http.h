@@ -1,5 +1,4 @@
 #include <string>
-#include <regex>
 #include <iostream>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -15,15 +14,15 @@ private:
     std::string path;
 public:
     HTTPParser(std::string s) : path("") {
-        std::regex path_regex("GET ([\\/\\w\\.]*)[\\? ]");
-        std::smatch match;
-        if (regex_search(s, match, path_regex))
-        {
-            path = match[1];
-            std::cout << "\"" << path << "\"" << std::endl;
 
-        }
+        char *p = const_cast<char*>(s.c_str());
+        while (*p++ != ' ');
+        char *e = p;
+        while (*e != ' ' && *e != '?') e++;
+        *e = '\0';
+        path = std::string(p);
     }
+
     std::string reply() {
         if(!path.empty()) {
             int fd = open(path.c_str(), O_RDONLY);
