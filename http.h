@@ -12,10 +12,11 @@ char reply_200[] = "HTTP/1.0 200 OK\r\nConnection: close\r\nServer: final/0.1\r\
 class HTTPParser {
 private:
     std::string path;
+    int log;
 public:
     HTTPParser(std::string s) : path("") {
 
-        int log = open("/home/box/log", O_CREAT | O_WRONLY | O_APPEND, 0666);
+        log = open("/home/box/log", O_CREAT | O_WRONLY | O_APPEND, 0666);
         write(log, s.c_str(), s.length());
 
         close(log);
@@ -26,14 +27,19 @@ public:
         *e = '\0';
         path = std::string(p);
     }
+    ~HTTPParser() {
+        close(log);
+    }
 
     std::string reply() {
         if(!path.empty()) {
             int fd = open(path.c_str(), O_RDONLY);
             if(fd > 0) {
+                write(log, "opened\n", 7);
                 char buf[1024];
                 int len = read(fd, buf, sizeof(buf));
                 if(len > 0) {
+                    write(log, "read\n", 5);
                     return std::string(reply_200) + std::to_string(len) + "\r\n\r\n" + std::string(buf, len);
                 }
                 close(fd);
