@@ -36,6 +36,7 @@ public:
                 if(len > 0) {
                     return std::string(reply_200) + std::to_string(len) + "\r\n\r\n" + std::string(buf, len);
                 }
+                close(fd);
             }
         }
         return std::string(reply_404);

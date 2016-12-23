@@ -86,6 +86,7 @@ public:
         {
             // Stop and free watchet if client socket is closing
             w.stop();
+            close(w.fd);
             delete &w;
             return;
         }
@@ -94,8 +95,8 @@ public:
             auto parser = HTTPParser(std::string(buffer, read));
             auto data = parser.reply();
             send(w.fd, data.c_str(), data.length(), 0);
-            close(w.fd);
             w.stop();
+            close(w.fd);
             delete &w;
 
 //            printf("message:%s\n",buffer);
@@ -181,6 +182,15 @@ public:
 
         // Accept client request
         int client_sd = accept(w.fd, (struct sockaddr *)&client_addr, &client_len);
+
+        struct linger {
+                              int l_onoff;    /* linger active */
+                              int l_linger;   /* how many seconds to linger for */
+        } linger;
+
+        linger.l_linger = 1;
+        linger.l_linger = 1;
+        setsockopt(client_sd, SOL_SOCKET, SO_LINGER, &linger, sizeof (linger));
 
         if (client_sd < 0)
             throw std::runtime_error("accept error");
